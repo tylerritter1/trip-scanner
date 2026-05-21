@@ -365,7 +365,8 @@ body {
 
 .brand-filter-group,
 .state-filter-group,
-.bedroom-filter-group {
+.bedroom-filter-group,
+.price-filter-group {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
@@ -406,6 +407,12 @@ body {
 .bedroom-btn.active {
     background: linear-gradient(135deg, var(--accent-pink) 0%, rgba(236, 72, 153, 0.8) 100%) !important;
     box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3) !important;
+}
+
+/* price buttons use a gorgeous amber gold accent */
+.price-btn.active {
+    background: linear-gradient(135deg, #f59e0b 0%, rgba(245, 158, 11, 0.8) 100%) !important;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3) !important;
 }
 
 .sort-wrapper {

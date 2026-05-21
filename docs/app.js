@@ -128,6 +128,7 @@ let dealsData = [];
 let activeBrandFilter = 'all';
 let activeLocationFilter = 'all';
 let activeBedroomsFilter = 'all';
+let activePriceFilter = 'all';
 let activeDurationFilter = 1; // 1 represents 'Any'
 let searchQuery = '';
 let currentSort = 'score';
@@ -138,6 +139,7 @@ const searchInput = document.getElementById('search-input');
 const brandFiltersContainer = document.getElementById('brand-filters');
 const stateFiltersContainer = document.getElementById('state-filters');
 const bedroomFiltersContainer = document.getElementById('bedroom-filters');
+const priceFiltersContainer = document.getElementById('price-filters');
 const durationSlider = document.getElementById('duration-slider');
 const durationVal = document.getElementById('duration-val');
 const sortSelect = document.getElementById('sort-select');
@@ -399,6 +401,16 @@ function setupEventListeners() {
         }
     });
 
+    // Price Buttons Listener
+    priceFiltersContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('price-btn')) {
+            document.querySelectorAll('#price-filters .price-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            activePriceFilter = e.target.getAttribute('data-price');
+            applyFiltersAndSorting();
+        }
+    });
+
     // Stay Duration Slider Listener
     durationSlider.addEventListener('input', (e) => {
         const val = parseInt(e.target.value);
@@ -440,6 +452,11 @@ function resetAllFilters() {
     const allBedBtn = document.querySelector('#bedroom-filters .bedroom-btn[data-bedrooms="all"]');
     if (allBedBtn) allBedBtn.classList.add('active');
     activeBedroomsFilter = 'all';
+
+    document.querySelectorAll('#price-filters .price-btn').forEach(btn => btn.classList.remove('active'));
+    const allPriceBtn = document.querySelector('#price-filters .price-btn[data-price="all"]');
+    if (allPriceBtn) allPriceBtn.classList.add('active');
+    activePriceFilter = 'all';
 
     // Reset duration slider
     durationSlider.value = 1;
@@ -516,6 +533,21 @@ function applyFiltersAndSorting() {
         } else {
             filtered = filtered.filter(d => d.nights === activeDurationFilter);
         }
+    }
+
+    // 6. Price Per Night Filter
+    if (activePriceFilter !== 'all') {
+        filtered = filtered.filter(d => {
+            const price = d.price_per_night;
+            if (activePriceFilter === 'under200') {
+                return price < 200;
+            } else if (activePriceFilter === '200to300') {
+                return price >= 200 && price <= 300;
+            } else if (activePriceFilter === 'over300') {
+                return price > 300;
+            }
+            return true;
+        });
     }
 
     // 3. Sorting Algorithms
