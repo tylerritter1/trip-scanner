@@ -128,6 +128,7 @@ let dealsData = [];
 let activeBrandFilter = 'all';
 let activeLocationFilter = 'all';
 let activeBedroomsFilter = 'all';
+let activeDurationFilter = 1; // 1 represents 'Any'
 let searchQuery = '';
 let currentSort = 'score';
 
@@ -137,6 +138,8 @@ const searchInput = document.getElementById('search-input');
 const brandFiltersContainer = document.getElementById('brand-filters');
 const stateFiltersContainer = document.getElementById('state-filters');
 const bedroomFiltersContainer = document.getElementById('bedroom-filters');
+const durationSlider = document.getElementById('duration-slider');
+const durationVal = document.getElementById('duration-val');
 const sortSelect = document.getElementById('sort-select');
 const resultsCount = document.getElementById('results-count');
 const emptyState = document.getElementById('empty-state');
@@ -299,6 +302,23 @@ function setupEventListeners() {
         }
     });
 
+    // Stay Duration Slider Listener
+    durationSlider.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        activeDurationFilter = val;
+        
+        // Update label text dynamically
+        if (val === 1) {
+            durationVal.textContent = 'Any';
+        } else if (val === 7) {
+            durationVal.textContent = '7+ Nights';
+        } else {
+            durationVal.textContent = `${val} Nights`;
+        }
+        
+        applyFiltersAndSorting();
+    });
+
     // Reset button inside empty state
     resetFiltersBtn.addEventListener('click', resetAllFilters);
 }
@@ -323,6 +343,11 @@ function resetAllFilters() {
     const allBedBtn = document.querySelector('#bedroom-filters .bedroom-btn[data-bedrooms="all"]');
     if (allBedBtn) allBedBtn.classList.add('active');
     activeBedroomsFilter = 'all';
+
+    // Reset duration slider
+    durationSlider.value = 1;
+    durationVal.textContent = 'Any';
+    activeDurationFilter = 1;
     
     sortSelect.value = 'score';
     currentSort = 'score';
@@ -385,6 +410,15 @@ function applyFiltersAndSorting() {
             }
             return beds === parseInt(activeBedroomsFilter);
         });
+    }
+
+    // 5. Stay Duration Filter
+    if (activeDurationFilter > 1) {
+        if (activeDurationFilter === 7) {
+            filtered = filtered.filter(d => d.nights >= 7);
+        } else {
+            filtered = filtered.filter(d => d.nights === activeDurationFilter);
+        }
     }
 
     // 3. Sorting Algorithms
