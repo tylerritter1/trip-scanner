@@ -323,6 +323,20 @@ function normalizeLocation(loc) {
 }
 
 /**
+ * Helper to extract bedroom count from a unit_type string.
+ * Map studios/efficiencies to 1 BR to avoid division-by-zero.
+ */
+function getBedroomsCount(unitType) {
+    if (!unitType) return 1;
+    const clean = unitType.toLowerCase();
+    if (clean.includes('studio') || clean.includes('0 bed') || clean.includes('efficiency')) {
+        return 1;
+    }
+    const match = clean.match(/(\d+)\s*bed/i);
+    return match ? Math.max(parseInt(match[1]), 1) : 1;
+}
+
+/**
  * Calculates metrics and updates the top stats panel cards
  */
 function updateStatsPanel(deals) {
@@ -502,14 +516,7 @@ function applyFiltersAndSorting() {
     // 4. Bedroom Filter
     if (activeBedroomsFilter !== 'all') {
         filtered = filtered.filter(d => {
-            if (!d.unit_type) return false;
-            let beds = 1;
-            if (d.unit_type.toLowerCase().includes('studio')) {
-                beds = 1; // Map studio to 1 BR for filtering
-            } else {
-                const match = d.unit_type.match(/(\d+)\s*bed/i);
-                beds = match ? parseInt(match[1]) : 1;
-            }
+            const beds = getBedroomsCount(d.unit_type);
             if (activeBedroomsFilter === '3') {
                 return beds >= 3;
             }
@@ -526,16 +533,17 @@ function applyFiltersAndSorting() {
         }
     }
 
-    // 6. Price Per Night Filter
+    // 6. Price Per BR Per Night Filter
     if (activePriceFilter !== 'all') {
         filtered = filtered.filter(d => {
-            const price = d.price_per_night;
+            const beds = getBedroomsCount(d.unit_type);
+            const pricePerBr = d.price_per_night / beds;
             if (activePriceFilter === 'under200') {
-                return price < 200;
+                return pricePerBr < 200;
             } else if (activePriceFilter === '200to300') {
-                return price >= 200 && price <= 300;
+                return pricePerBr >= 200 && pricePerBr <= 300;
             } else if (activePriceFilter === 'over300') {
-                return price > 300;
+                return pricePerBr > 300;
             }
             return true;
         });
@@ -602,6 +610,11 @@ function renderDeals(deals) {
         const dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };
         const formattedDate = checkInDate.toLocaleDateString('en-US', dateOptions);
         
+        // Calculate price per BR per night
+        const beds = getBedroomsCount(deal.unit_type);
+        const pricePerNight = deal.price_per_night || (deal.listing_price / deal.nights) || 0;
+        const pricePerBrPerNight = Math.round(pricePerNight / beds);
+        
         // Core Card Template
         const cardHtml = `
             <div class="deal-card animate-fadeIn">
@@ -648,6 +661,7 @@ function renderDeals(deals) {
                         <span class="price-label">Rental Cost</span>
                         <span class="price-value">$${Math.round(deal.listing_price).toLocaleString()}</span>
                         <span class="price-retail">Retail: $${Math.round(deal.total_retail).toLocaleString()}</span>
+                        <span class="price-per-br">$${pricePerBrPerNight}/nt/BR</span>
                     </div>
                     <div class="savings-tag ${deal.class === 'super-deal' ? 'super-deal-tag' : ''}">
                         <span class="savings-pct">-${deal.savings_pct}%</span>
