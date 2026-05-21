@@ -661,7 +661,7 @@ function renderDeals(deals) {
                         <span class="price-label">Rental Cost</span>
                         <span class="price-value">$${Math.round(deal.listing_price).toLocaleString()}</span>
                         <span class="price-retail">Retail: $${Math.round(deal.total_retail).toLocaleString()}</span>
-                        <span class="price-per-br">$${pricePerBrPerNight}/nt/BR</span>
+                        <span class="price-per-br">$${pricePerBrPerNight} PRICE / BR / NIGHT</span>
                     </div>
                     <div class="savings-tag ${deal.class === 'super-deal' ? 'super-deal-tag' : ''}">
                         <span class="savings-pct">-${deal.savings_pct}%</span>
