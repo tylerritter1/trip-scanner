@@ -231,7 +231,7 @@ function buildLocationFilters(deals) {
 }
 
 /**
- * Resolves the full State, Country, or Region name from a location string.
+ * Resolves the State or Region abbreviation/name from a location string.
  */
 function getStateFromLocation(loc) {
     if (!loc) return 'Other';
@@ -239,28 +239,28 @@ function getStateFromLocation(loc) {
     
     // Check specific keywords for precise mapping
     if (clean.includes('hawaii') || clean.endsWith(', hi') || clean.includes('maui') || clean.includes('oahu') || clean.includes('kauai')) {
-        return 'Hawaii';
+        return 'HI';
     }
     if (clean.includes('florida') || clean.endsWith(', fl') || clean.includes('orlando') || clean.includes('key west')) {
-        return 'Florida';
+        return 'FL';
     }
     if (clean.includes('california') || clean.endsWith(', ca') || clean.includes('carlsbad') || clean.includes('lake tahoe') || clean.includes('san francisco')) {
-        return 'California';
+        return 'CA';
     }
     if (clean.includes('colorado') || clean.endsWith(', co') || clean.includes('aspen') || clean.includes('vail') || clean.includes('beaver creek')) {
-        return 'Colorado';
+        return 'CO';
     }
     if (clean.includes('south carolina') || clean.endsWith(', sc') || clean.includes('myrtle beach')) {
-        return 'South Carolina';
+        return 'SC';
     }
     if (clean.includes('arizona') || clean.endsWith(', az') || clean.includes('scottsdale')) {
-        return 'Arizona';
+        return 'AZ';
     }
     if (clean.includes('nevada') || clean.endsWith(', nv') || clean.includes('las vegas')) {
-        return 'Nevada';
+        return 'NV';
     }
     if (clean.includes('wyoming') || clean.endsWith(', wy') || clean.includes('jackson hole')) {
-        return 'Wyoming';
+        return 'WY';
     }
     if (clean.includes('usvi') || clean.includes('virgin islands') || clean.includes('st. thomas')) {
         return 'USVI';
@@ -272,19 +272,10 @@ function getStateFromLocation(loc) {
         return 'Mexico';
     }
     
-    // If not matched, try to extract the last part after a comma
+    // If not matched, try to extract the last part after a comma and capitalize it
     const parts = clean.split(',');
     if (parts.length === 2) {
-        const lastPart = parts[1].trim();
-        const abbrevMap = {
-            'hi': 'Hawaii', 'fl': 'Florida', 'ca': 'California',
-            'co': 'Colorado', 'sc': 'South Carolina', 'az': 'Arizona',
-            'nv': 'Nevada', 'wy': 'Wyoming', 'usvi': 'USVI',
-            'bahamas': 'Bahamas', 'mexico': 'Mexico'
-        };
-        if (abbrevMap[lastPart]) {
-            return abbrevMap[lastPart];
-        }
+        return parts[1].trim().toUpperCase();
     }
     
     // Capitalize first letter of each word as a fallback
