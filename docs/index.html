@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timeshare Deal Portal | Premium Owner Rental Analytics</title>
+    <!-- Modern Premium Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Premium Backdrop Glows -->
+    <div class="glow-bg glow-1"></div>
+    <div class="glow-bg glow-2"></div>
+    <div class="glow-bg glow-3"></div>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="main-header">
+            <div class="header-content">
+                <div class="logo-area">
+                    <span class="logo-icon"><i class="fa-solid fa-plane-departure"></i></span>
+                    <div>
+                        <h1 class="logo-title">TUG DEAL PORTAL</h1>
+                        <p class="logo-subtitle">Real-Time Timeshare Rental Owner Analytics</p>
+                    </div>
+                </div>
+                <div class="header-badges">
+                    <span class="badge badge-scanner-filter">
+                        <i class="fa-solid fa-filter"></i> Max $400/nt/BR | Min 30% Off
+                    </span>
+                    <span class="badge badge-scanner-status">
+                        <span class="status-indicator-dot animate-pulse"></span>
+                        Scanner Active
+                    </span>
+                </div>
+            </div>
+        </header>
+
+        <!-- STATS PANEL -->
+        <section class="stats-panel">
+            <div class="stat-card stat-deals">
+                <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+                <div class="stat-info">
+                    <span class="stat-label">Deals Analyzed</span>
+                    <h3 class="stat-value" id="stat-total-deals">0</h3>
+                </div>
+            </div>
+            <div class="stat-card stat-savings">
+                <div class="stat-icon"><i class="fa-solid fa-piggy-bank"></i></div>
+                <div class="stat-info">
+                    <span class="stat-label">Avg. Savings</span>
+                    <h3 class="stat-value" id="stat-avg-savings">0%</h3>
+                </div>
+            </div>
+            <div class="stat-card stat-value-found">
+                <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
+                <div class="stat-info">
+                    <span class="stat-label">Total Savings Scanned</span>
+                    <h3 class="stat-value" id="stat-total-saved">$0</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILTER & CONTROL BAR -->
+        <section class="control-bar">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="search-input" placeholder="Search by resort, location, or brand...">
+            </div>
+
+            <div class="filters-row">
+                <div class="filter-group-wrap">
+                    <span class="filter-group-label"><i class="fa-solid fa-building"></i> Brand</span>
+                    <div class="brand-filter-group" id="brand-filters">
+                        <button class="filter-btn active" data-brand="all">All Brands</button>
+                        <button class="filter-btn" data-brand="Ritz-Carlton"><i class="fa-solid fa-gem"></i> Ritz-Carlton</button>
+                        <button class="filter-btn" data-brand="Four Seasons"><i class="fa-solid fa-tree"></i> Four Seasons</button>
+                        <button class="filter-btn" data-brand="Marriott">Marriott</button>
+                        <button class="filter-btn" data-brand="Westin">Westin</button>
+                        <button class="filter-btn" data-brand="Disney Vacation Club">Disney (DVC)</button>
+                        <button class="filter-btn" data-brand="Hyatt"><i class="fa-solid fa-umbrella-beach"></i> Hyatt</button>
+                        <button class="filter-btn" data-brand="other">Others</button>
+                    </div>
+                </div>
+
+                <div class="filter-group-wrap">
+                    <span class="filter-group-label"><i class="fa-solid fa-map-location-dot"></i> Location</span>
+                    <div class="state-filter-group" id="state-filters">
+                        <!-- Dynamically populated by app.js -->
+                    </div>
+                </div>
+
+                <div class="filter-group-wrap">
+                    <span class="filter-group-label"><i class="fa-solid fa-bed"></i> Bedrooms</span>
+                    <div class="bedroom-filter-group" id="bedroom-filters">
+                        <button class="filter-btn bedroom-btn active" data-bedrooms="all">All Sizes</button>
+                        <button class="filter-btn bedroom-btn" data-bedrooms="1">1 BR</button>
+                        <button class="filter-btn bedroom-btn" data-bedrooms="2">2 BR</button>
+                        <button class="filter-btn bedroom-btn" data-bedrooms="3">3+ BR</button>
+                    </div>
+                </div>
+
+                <div class="sort-wrapper">
+                    <label for="sort-select"><i class="fa-solid fa-arrow-down-wide-short"></i> Sort By:</label>
+                    <select id="sort-select">
+                        <option value="score">Deal Score (High to Low)</option>
+                        <option value="discount">Savings % (High to Low)</option>
+                        <option value="price-asc">Price (Low to High)</option>
+                        <option value="price-desc">Price (High to Low)</option>
+                        <option value="date">Check-in Date (Soonest)</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEALS CONTAINER -->
+        <main class="deals-section">
+            <div class="section-title-row">
+                <h2 class="section-heading">Featured Timeshare Rental Listings</h2>
+                <span class="results-count" id="results-count">0 items matching</span>
+            </div>
+
+            <!-- Grid Container -->
+            <div class="deals-grid" id="deals-grid">
+                <!-- Card Skeleton Loading Stubs (re-populated by app.js) -->
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+                <div class="skeleton-card"></div>
+            </div>
+            
+            <!-- Empty state -->
+            <div class="empty-state hidden" id="empty-state">
+                <i class="fa-regular fa-folder-open empty-icon"></i>
+                <h3>No Outstanding Deals Found</h3>
+                <p>Try resetting your filter parameters or search terms to find more listings.</p>
+                <button class="reset-btn" id="reset-filters-btn">Reset All Filters</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Script loading -->
+    <script src="app.js"></script>
+</body>
+</html>

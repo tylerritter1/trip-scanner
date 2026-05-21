@@ -1,0 +1,845 @@
+/* ==========================================================================
+   PREMIUM GLASSMORPHISM DESIGN SYSTEM & VARIABLE TOKENS
+   ========================================================================== */
+
+:root {
+    --font-primary: 'Inter', sans-serif;
+    --font-title: 'Outfit', sans-serif;
+    
+    /* Color Palette */
+    --bg-dark: #08090e;
+    --bg-card: rgba(17, 19, 28, 0.7);
+    --bg-card-hover: rgba(23, 26, 38, 0.85);
+    --border-glass: rgba(255, 255, 255, 0.08);
+    --border-glass-hover: rgba(255, 255, 255, 0.16);
+    
+    /* Text colors */
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    
+    /* Glowing accents */
+    --accent-indigo: #6366f1;
+    --accent-indigo-glow: rgba(99, 102, 241, 0.3);
+    --accent-pink: #ec4899;
+    --accent-pink-glow: rgba(236, 72, 153, 0.25);
+    
+    /* Deal Status / Grade Accents */
+    --color-super: #fbbf24;      /* Gold A+ */
+    --color-great: #34d399;      /* Green A */
+    --color-good: #60a5fa;       /* Blue B */
+    --color-fair: #a78bfa;       /* Purple C */
+    
+    /* Timing & Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   DYNAMIC GLOWING BACKGROUNDS (MICRO-ANIMATED)
+   ========================================================================== */
+
+.glow-bg {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: -1;
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.glow-1 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--accent-indigo) 0%, rgba(99, 102, 241, 0) 70%);
+    top: -150px;
+    left: -100px;
+    animation: pulseGlow 12s infinite ease-in-out alternate;
+}
+
+.glow-2 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--accent-pink) 0%, rgba(236, 72, 153, 0) 70%);
+    bottom: -200px;
+    right: -100px;
+    animation: pulseGlow 16s infinite ease-in-out alternate-reverse;
+}
+
+.glow-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.3) 0%, rgba(168, 85, 247, 0) 70%);
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes pulseGlow {
+    0% {
+        transform: scale(1) translate(0, 0);
+        opacity: 0.35;
+    }
+    100% {
+        transform: scale(1.15) translate(40px, 30px);
+        opacity: 0.55;
+    }
+}
+
+/* Layout Container */
+.app-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+}
+
+/* ==========================================================================
+   HEADER
+   ========================================================================== */
+
+.main-header {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+}
+
+.logo-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--accent-indigo) 0%, var(--accent-pink) 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
+}
+
+.logo-title {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.8rem;
+    letter-spacing: -0.5px;
+    background: linear-gradient(to right, #ffffff, #d1d5db);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo-subtitle {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.badge-scanner-filter {
+    background: rgba(245, 158, 11, 0.1);
+    color: #fbbf24;
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.badge-scanner-status {
+    background: rgba(16, 185, 129, 0.1);
+    color: #34d399;
+    border-color: rgba(52, 211, 153, 0.2);
+}
+
+.status-indicator-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #10b981;
+    box-shadow: 0 0 10px #10b981;
+}
+
+.animate-pulse {
+    animation: pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(1.15); }
+}
+
+/* ==========================================================================
+   STATS PANEL
+   ========================================================================== */
+
+.stats-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+.stat-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    transition: var(--transition-smooth);
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-glass-hover);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+}
+
+.stat-deals .stat-icon {
+    background: rgba(99, 102, 241, 0.1);
+    color: var(--accent-indigo);
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.stat-savings .stat-icon {
+    background: rgba(236, 72, 153, 0.1);
+    color: var(--accent-pink);
+    border: 1px solid rgba(236, 72, 153, 0.2);
+}
+
+.stat-value-found .stat-icon {
+    background: rgba(251, 191, 36, 0.1);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.stat-value {
+    font-family: var(--font-title);
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+}
+
+/* ==========================================================================
+   CONTROL BAR (FILTERS & SEARCH)
+   ========================================================================== */
+
+.control-bar {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 1.5rem;
+    margin-bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.2);
+}
+
+.search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+#search-input {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 1rem 1rem 1rem 3.25rem;
+    color: white;
+    font-size: 1rem;
+    font-family: var(--font-primary);
+    outline: none;
+    transition: var(--transition-smooth);
+}
+
+#search-input:focus {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: var(--accent-indigo);
+    box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+}
+
+.filters-row {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Container that wraps a label + its filter button group */
+.filter-group-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+/* Small section label above filter buttons ("Brand", "Location") */
+.filter-group-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* Sort row sits on its own line, right-aligned */
+.sort-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    align-self: flex-end;
+}
+
+.brand-filter-group,
+.state-filter-group,
+.bedroom-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    color: var(--text-secondary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.filter-btn:hover {
+    color: white;
+    border-color: var(--border-glass-hover);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, var(--accent-indigo) 0%, rgba(99, 102, 241, 0.8) 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+/* location buttons use a slightly different accent so they're visually distinct */
+.state-btn.active {
+    background: linear-gradient(135deg, #0ea5e9 0%, rgba(14, 165, 233, 0.8) 100%) !important;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3) !important;
+}
+
+/* bedroom buttons use a gorgeous pink/rose accent */
+.bedroom-btn.active {
+    background: linear-gradient(135deg, var(--accent-pink) 0%, rgba(236, 72, 153, 0.8) 100%) !important;
+    box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3) !important;
+}
+
+.sort-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sort-wrapper label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+#sort-select {
+    background: rgba(17, 19, 28, 0.9);
+    border: 1px solid var(--border-glass);
+    color: white;
+    padding: 0.6rem 1.5rem 0.6rem 1rem;
+    border-radius: 12px;
+    outline: none;
+    font-size: 0.9rem;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+#sort-select:focus {
+    border-color: var(--accent-indigo);
+}
+
+/* ==========================================================================
+   DEALS SECTION TITLE
+   ========================================================================== */
+
+.section-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+.section-heading {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.results-count {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* ==========================================================================
+   DEALS GRID & CARDS
+   ========================================================================== */
+
+.deals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 2rem;
+}
+
+.deal-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    padding: 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    transition: var(--transition-smooth);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.deal-card:hover {
+    transform: translateY(-6px);
+    background: var(--bg-card-hover);
+    border-color: var(--border-glass-hover);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Deal Badge & Score */
+.card-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.brand-badge {
+    padding: 0.35rem 0.85rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.brand-ritz { background: rgba(245, 158, 11, 0.1); color: #fbbf24; border-color: rgba(245, 158, 11, 0.2); }
+.brand-seasons { background: rgba(244, 63, 94, 0.1); color: #fb7185; border-color: rgba(244, 63, 94, 0.2); }
+.brand-marriott { background: rgba(249, 115, 22, 0.1); color: #fb923c; border-color: rgba(249, 115, 22, 0.2); }
+.brand-westin { background: rgba(16, 185, 129, 0.1); color: #34d399; border-color: rgba(16, 185, 129, 0.2); }
+.brand-dvc { background: rgba(59, 130, 246, 0.1); color: #60a5fa; border-color: rgba(59, 130, 246, 0.2); }
+.brand-hyatt { background: rgba(20, 184, 166, 0.1); color: #2dd4bf; border-color: rgba(20, 184, 166, 0.2); }
+.brand-other { background: rgba(168, 85, 247, 0.1); color: #c084fc; border-color: rgba(168, 85, 247, 0.2); }
+
+.score-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    font-family: var(--font-title);
+    text-align: center;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+}
+
+.score-super {
+    border-color: var(--color-super);
+    background: rgba(251, 191, 36, 0.05);
+    color: var(--color-super);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.15);
+}
+
+.score-great {
+    border-color: var(--color-great);
+    background: rgba(52, 211, 153, 0.05);
+    color: var(--color-great);
+    box-shadow: 0 0 15px rgba(52, 211, 153, 0.15);
+}
+
+.score-good {
+    border-color: var(--color-good);
+    background: rgba(96, 165, 250, 0.05);
+    color: var(--color-good);
+}
+
+.score-fair {
+    border-color: var(--color-fair);
+    background: rgba(167, 139, 250, 0.05);
+    color: var(--color-fair);
+}
+
+.score-val {
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.score-grade {
+    font-size: 0.65rem;
+    font-weight: 700;
+    margin-top: -3px;
+    text-transform: uppercase;
+}
+
+/* Card Resort & Info */
+.resort-name {
+    font-family: var(--font-title);
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: white;
+    line-height: 1.35;
+    margin-top: -0.25rem;
+}
+
+.resort-location {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.25rem;
+}
+
+.listing-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 0.75rem;
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.meta-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.meta-value {
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* Card Pricing Engine */
+.pricing-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    padding-top: 1rem;
+}
+
+.price-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.price-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.price-value {
+    font-family: var(--font-title);
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: white;
+}
+
+.price-retail {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.savings-tag {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: right;
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+}
+
+.savings-pct {
+    font-size: 1rem;
+}
+
+.savings-label {
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    opacity: 0.9;
+    display: block;
+    margin-top: -2px;
+}
+
+.super-deal-tag {
+    background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+    box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
+}
+
+/* Card Notes & Owner */
+.card-notes {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 2.7rem;
+}
+
+.owner-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 0.75rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.owner-name {
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.view-btn {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
+    color: white;
+    padding: 0.8rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.view-btn:hover {
+    background: linear-gradient(135deg, var(--accent-indigo) 0%, rgba(99, 102, 241, 0.9) 100%);
+    border-color: transparent;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.25);
+}
+
+/* ==========================================================================
+   EMPTY STATE & SKELETON LOADERS
+   ========================================================================== */
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    margin-top: 2rem;
+}
+
+.empty-icon {
+    font-size: 3.5rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.empty-state h3 {
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.reset-btn {
+    background: var(--accent-indigo);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.reset-btn:hover {
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.35);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Skeleton Loading Cards */
+.skeleton-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    height: 380px;
+    position: relative;
+    overflow: hidden;
+}
+
+.skeleton-card::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.03) 20%,
+        rgba(255, 255, 255, 0.07) 60%,
+        rgba(255, 255, 255, 0) 100-percent
+    );
+    transform: translateX(-100%);
+    animation: skeleton-shimmer 1.6s infinite;
+}
+
+@keyframes skeleton-shimmer {
+    100% { transform: translateX(100%); }
+}
+
+/* ==========================================================================
+   RESPONSIVE MEDIA QUERIES
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    .logo-title {
+        font-size: 1.5rem;
+    }
+    
+    .stats-panel {
+        grid-template-columns: 1fr;
+    }
+    
+    .filters-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .brand-filter-group,
+    .state-filter-group,
+    .bedroom-filter-group {
+        justify-content: center;
+    }
+    
+    .sort-wrapper {
+        justify-content: space-between;
+        align-self: stretch;
+    }
+    
+    .deals-grid {
+        grid-template-columns: 1fr;
+    }
+}

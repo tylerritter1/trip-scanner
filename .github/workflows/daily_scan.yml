@@ -1,0 +1,40 @@
+name: Timeshare Scanner — Daily Sync
+
+on:
+  schedule:
+    - cron: "0 14 * * *" # Daily at 7:00 AM PDT / 6:00 AM PST
+  workflow_dispatch:
+
+jobs:
+  sync:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run timeshare scanner
+        timeout-minutes: 10
+        run: python timeshare_scanner.py
+
+      - name: Commit updated files
+        run: |
+          git config --global user.name "tylerritter1"
+          git config --global user.email "tyler.ritter@instacart.com"
+          git add docs/deals.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync: update scanned deals [$(date -u '+%Y-%m-%d')]" && git pull --rebase && git push)
