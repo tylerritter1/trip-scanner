@@ -280,10 +280,53 @@ def scrape_resort_listings(resort_name: str, benchmark: Dict[str, Any]) -> List[
             check_in = datetime.now().strftime("%Y-%m-%d")
             try:
                 date_parts = [p.strip() for p in date_str.split(' - ')]
-                if date_parts:
+                if date_parts and date_parts[0]:
                     check_in = datetime.strptime(date_parts[0].strip(), "%b %d, %Y").strftime("%Y-%m-%d")
             except:
                 pass
+
+            # If date_str is empty or parsed nights defaulted to 7, try to resolve from listing details
+            if not date_str or nights == 7:
+                # 1. Try to extract rate per night from price_str first (very fast, no network request)
+                rate_match = re.search(r'\$([\d,]+(?:\.\d{2})?)\s*/\s*(?:night|nt)', price_str, re.IGNORECASE)
+                if rate_match:
+                    rate_val = parse_price(rate_match.group(1))
+                    if rate_val > 0:
+                        calculated_nights = int(round(listing_price / rate_val))
+                        if 1 <= calculated_nights <= 21:
+                            nights = calculated_nights
+                            print(f"    -> [INFO] Calculated duration of {nights} nights from rate-per-night")
+
+                # 2. If date_str is completely empty, we also need a real check-in date!
+                # We can fetch the detail page to parse CHECK IN and CHECK OUT dates accurately.
+                if not date_str:
+                    try:
+                        detail_response = requests.get(full_link, headers=headers, timeout=10)
+                        if detail_response.status_code == 200:
+                            detail_soup = BeautifulSoup(detail_response.text, 'html.parser')
+                            detail_rows = detail_soup.find_all('div', class_='detail-row')
+                            check_in_val = ""
+                            check_out_val = ""
+                            for dr in detail_rows:
+                                label_el = dr.find(class_='detail-label')
+                                value_el = dr.find(class_='detail-value')
+                                if label_el and value_el:
+                                    lbl = label_el.get_text(strip=True).upper()
+                                    val = value_el.get_text(strip=True)
+                                    if "CHECK IN" in lbl or "CHECK-IN" in lbl:
+                                        check_in_val = val
+                                    elif "CHECK OUT" in lbl or "CHECK-OUT" in lbl:
+                                        check_out_val = val
+                            
+                            if check_in_val and check_out_val:
+                                fmt = "%m/%d/%Y"
+                                start_dt = datetime.strptime(check_in_val, fmt)
+                                end_dt = datetime.strptime(check_out_val, fmt)
+                                nights = (end_dt - start_dt).days
+                                check_in = start_dt.strftime("%Y-%m-%d")
+                                print(f"    -> [SUCCESS] Scraped details for {listing_id}: {check_in} for {nights} nights")
+                    except Exception as ex:
+                        print(f"    -> [ERROR] Failed to fetch details for {listing_id}: {ex}")
 
             # Calculate deal score with bedroom-adjusted retail rate
             dynamic_retail = get_retail_rate_for_unit(benchmark["retail_per_night"], unit_type)
