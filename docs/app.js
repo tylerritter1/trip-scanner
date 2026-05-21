@@ -1,5 +1,5 @@
 /**
- * Timeshare Deal Portal - Frontend Controller
+ * Vacation Rental Deals - Frontend Controller
  * Fetches scanned listings from deals.json, manages dashboard stats,
  * and implements real-time search, filters, and high-fidelity sorting.
  */
