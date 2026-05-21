@@ -173,14 +173,28 @@ async function fetchDeals() {
         const data = await response.json();
         
         if (data && data.length > 0) {
-            dealsData = data;
-            console.log("Successfully fetched deals from deals.json");
+            dealsData = data.map(deal => {
+                const normalizedLoc = normalizeLocation(deal.location);
+                return {
+                    ...deal,
+                    location: normalizedLoc,
+                    state: getStateFromLocation(normalizedLoc)
+                };
+            });
+            console.log("Successfully fetched and normalized deals from deals.json");
         } else {
             throw new Error("Empty dataset in JSON");
         }
     } catch (error) {
         console.warn("Could not load deals.json. Loading high-fidelity fallback dataset instead.", error);
-        dealsData = FALLBACK_DEALS;
+        dealsData = FALLBACK_DEALS.map(deal => {
+            const normalizedLoc = normalizeLocation(deal.location);
+            return {
+                ...deal,
+                location: normalizedLoc,
+                state: getStateFromLocation(normalizedLoc)
+            };
+        });
     }
     
     updateStatsPanel(dealsData);
@@ -189,47 +203,130 @@ async function fetchDeals() {
 }
 
 /**
- * Dynamically builds location filter buttons from the loaded dataset.
- * Groups by high-level location label (e.g. "Maui, Hawaii" → "Maui").
+ * Dynamically builds location filter buttons from the loaded dataset,
+ * grouping by State, Country, or Region (e.g., "Hawaii", "Florida", etc.).
  */
 function buildLocationFilters(deals) {
-    // Collect unique locations, preserving display order by frequency
-    const locationCounts = {};
+    // Collect unique states, preserving display order by frequency
+    const stateCounts = {};
     deals.forEach(d => {
-        const loc = d.location || '';
-        if (loc) locationCounts[loc] = (locationCounts[loc] || 0) + 1;
+        const state = d.state || '';
+        if (state) stateCounts[state] = (stateCounts[state] || 0) + 1;
     });
 
     // Sort by count desc
-    const locations = Object.keys(locationCounts).sort((a, b) => locationCounts[b] - locationCounts[a]);
+    const states = Object.keys(stateCounts).sort((a, b) => stateCounts[b] - stateCounts[a]);
 
     // Render buttons
     stateFiltersContainer.innerHTML = `<button class="filter-btn state-btn active" data-location="all">All Locations</button>`;
-    locations.forEach(loc => {
+    states.forEach(state => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn state-btn';
-        btn.setAttribute('data-location', loc);
-        // Shorten label: "Maui, Hawaii" → "Maui, HI", "Orlando, FL" → "Orlando, FL"
-        btn.textContent = shortenLocation(loc);
+        btn.setAttribute('data-location', state);
+        btn.textContent = state;
         stateFiltersContainer.appendChild(btn);
     });
 }
 
 /**
- * Shortens a location string for compact display in the filter bar.
- * e.g. "Maui, Hawaii" → "Maui, HI"  |  "Nassau, Bahamas" → "Nassau"
+ * Resolves the full State, Country, or Region name from a location string.
  */
-function shortenLocation(loc) {
+function getStateFromLocation(loc) {
+    if (!loc) return 'Other';
+    const clean = loc.trim().toLowerCase();
+    
+    // Check specific keywords for precise mapping
+    if (clean.includes('hawaii') || clean.endsWith(', hi') || clean.includes('maui') || clean.includes('oahu') || clean.includes('kauai')) {
+        return 'Hawaii';
+    }
+    if (clean.includes('florida') || clean.endsWith(', fl') || clean.includes('orlando') || clean.includes('key west')) {
+        return 'Florida';
+    }
+    if (clean.includes('california') || clean.endsWith(', ca') || clean.includes('carlsbad') || clean.includes('lake tahoe') || clean.includes('san francisco')) {
+        return 'California';
+    }
+    if (clean.includes('colorado') || clean.endsWith(', co') || clean.includes('aspen') || clean.includes('vail') || clean.includes('beaver creek')) {
+        return 'Colorado';
+    }
+    if (clean.includes('south carolina') || clean.endsWith(', sc') || clean.includes('myrtle beach')) {
+        return 'South Carolina';
+    }
+    if (clean.includes('arizona') || clean.endsWith(', az') || clean.includes('scottsdale')) {
+        return 'Arizona';
+    }
+    if (clean.includes('nevada') || clean.endsWith(', nv') || clean.includes('las vegas')) {
+        return 'Nevada';
+    }
+    if (clean.includes('wyoming') || clean.endsWith(', wy') || clean.includes('jackson hole')) {
+        return 'Wyoming';
+    }
+    if (clean.includes('usvi') || clean.includes('virgin islands') || clean.includes('st. thomas')) {
+        return 'USVI';
+    }
+    if (clean.includes('bahamas') || clean.includes('nassau')) {
+        return 'Bahamas';
+    }
+    if (clean.includes('mexico') || clean.includes('cabo') || clean.includes('riviera maya') || clean.includes('vallarta') || clean.includes('cabos')) {
+        return 'Mexico';
+    }
+    
+    // If not matched, try to extract the last part after a comma
+    const parts = clean.split(',');
+    if (parts.length === 2) {
+        const lastPart = parts[1].trim();
+        const abbrevMap = {
+            'hi': 'Hawaii', 'fl': 'Florida', 'ca': 'California',
+            'co': 'Colorado', 'sc': 'South Carolina', 'az': 'Arizona',
+            'nv': 'Nevada', 'wy': 'Wyoming', 'usvi': 'USVI',
+            'bahamas': 'Bahamas', 'mexico': 'Mexico'
+        };
+        if (abbrevMap[lastPart]) {
+            return abbrevMap[lastPart];
+        }
+    }
+    
+    // Capitalize first letter of each word as a fallback
+    return loc.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
+/**
+ * Normalizes location values to prevent duplicate filters (e.g. consolidates "Maui, Hawaii" and "Maui, HI").
+ */
+function normalizeLocation(loc) {
+    if (!loc) return '';
+    let clean = loc.trim();
+    
+    // Map of full state/province names to standard postal abbreviations
     const stateMap = {
-        'Hawaii': 'HI', 'Florida': 'FL', 'California': 'CA',
-        'Nevada': 'NV', 'South Carolina': 'SC', 'Colorado': 'CO',
+        'Hawaii': 'HI',
+        'Florida': 'FL',
+        'California': 'CA',
+        'Nevada': 'NV',
+        'South Carolina': 'SC',
+        'Colorado': 'CO',
+        'Arizona': 'AZ'
     };
-    const parts = loc.split(',').map(s => s.trim());
+    
+    const parts = clean.split(',').map(s => s.trim());
     if (parts.length === 2) {
         const abbrev = stateMap[parts[1]];
-        return abbrev ? `${parts[0]}, ${abbrev}` : parts[0];
+        if (abbrev) {
+            return `${parts[0]}, ${abbrev}`;
+        }
+        // Handle cases that already use the uppercase abbreviation (e.g. "Maui, HI")
+        const reverseAbbrev = Object.values(stateMap).find(v => v.toLowerCase() === parts[1].toLowerCase());
+        if (reverseAbbrev) {
+            return `${parts[0]}, ${reverseAbbrev.toUpperCase()}`;
+        }
     }
-    return loc;
+    
+    // Singular word consolidation (e.g. "Maui" -> "Maui, HI")
+    if (clean.toLowerCase() === 'maui') return 'Maui, HI';
+    if (clean.toLowerCase() === 'oahu') return 'Oahu, HI';
+    if (clean.toLowerCase() === 'kauai') return 'Kauai, HI';
+    if (clean.toLowerCase() === 'orlando') return 'Orlando, FL';
+    
+    return clean;
 }
 
 /**
@@ -391,7 +488,7 @@ function applyFiltersAndSorting() {
 
     // 3. Location Filter
     if (activeLocationFilter !== 'all') {
-        filtered = filtered.filter(d => d.location === activeLocationFilter);
+        filtered = filtered.filter(d => d.state === activeLocationFilter);
     }
 
     // 4. Bedroom Filter
