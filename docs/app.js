@@ -175,28 +175,32 @@ async function fetchDeals() {
         const data = await response.json();
         
         if (data && data.length > 0) {
-            dealsData = data.map(deal => {
-                const normalizedLoc = normalizeLocation(deal.location);
-                return {
-                    ...deal,
-                    location: normalizedLoc,
-                    state: getStateFromLocation(normalizedLoc)
-                };
-            });
+            dealsData = data
+                .map(deal => {
+                    const normalizedLoc = normalizeLocation(deal.location);
+                    return {
+                        ...deal,
+                        location: normalizedLoc,
+                        state: getStateFromLocation(normalizedLoc)
+                    };
+                })
+                .filter(deal => deal.state !== 'SC');
             console.log("Successfully fetched and normalized deals from deals.json");
         } else {
             throw new Error("Empty dataset in JSON");
         }
     } catch (error) {
         console.warn("Could not load deals.json. Loading high-fidelity fallback dataset instead.", error);
-        dealsData = FALLBACK_DEALS.map(deal => {
-            const normalizedLoc = normalizeLocation(deal.location);
-            return {
-                ...deal,
-                location: normalizedLoc,
-                state: getStateFromLocation(normalizedLoc)
-            };
-        });
+        dealsData = FALLBACK_DEALS
+            .map(deal => {
+                const normalizedLoc = normalizeLocation(deal.location);
+                return {
+                    ...deal,
+                    location: normalizedLoc,
+                    state: getStateFromLocation(normalizedLoc)
+                };
+            })
+            .filter(deal => deal.state !== 'SC');
     }
     
     updateStatsPanel(dealsData);
@@ -266,10 +270,10 @@ function getStateFromLocation(loc) {
         return 'USVI';
     }
     if (clean.includes('bahamas') || clean.includes('nassau')) {
-        return 'Bahamas';
+        return 'BS';
     }
     if (clean.includes('mexico') || clean.includes('cabo') || clean.includes('riviera maya') || clean.includes('vallarta') || clean.includes('cabos')) {
-        return 'Mexico';
+        return 'MX';
     }
     
     // If not matched, try to extract the last part after a comma and capitalize it
@@ -295,9 +299,10 @@ function normalizeLocation(loc) {
         'Florida': 'FL',
         'California': 'CA',
         'Nevada': 'NV',
-        'South Carolina': 'SC',
         'Colorado': 'CO',
-        'Arizona': 'AZ'
+        'Arizona': 'AZ',
+        'Bahamas': 'BS',
+        'Mexico': 'MX'
     };
     
     const parts = clean.split(',').map(s => s.trim());

@@ -50,7 +50,6 @@ RESORT_RETAIL_BENCHMARKS = {
     "Disney's Aulani Resort & Spa": {"retail_per_night": 900, "brand": "Disney Vacation Club", "location": "Oahu, Hawaii", "tug_resort_id": 15365},
     "Marriott's Ko Olina Beach Club": {"retail_per_night": 650, "brand": "Marriott", "location": "Oahu, Hawaii", "tug_resort_id": 14033},
     "Harborside Resort at Atlantis": {"retail_per_night": 800, "brand": "Sheraton/Westin", "location": "Nassau, Bahamas", "tug_resort_id": 13826},
-    "Marriott's Oceanwatch Villas": {"retail_per_night": 500, "brand": "Marriott", "location": "Myrtle Beach, SC", "tug_resort_id": 13896},
     "Marriott's Grande Vista": {"retail_per_night": 320, "brand": "Marriott", "location": "Orlando, FL", "tug_resort_id": 14025},
     "Disney's Saratoga Springs Resort": {"retail_per_night": 550, "brand": "Disney Vacation Club", "location": "Orlando, FL", "tug_resort_id": 13701},
     "Hilton Grand Vacations Club on the Las Vegas Strip": {"retail_per_night": 280, "brand": "Hilton", "location": "Las Vegas, NV", "tug_resort_id": 0},
