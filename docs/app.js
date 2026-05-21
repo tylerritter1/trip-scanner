@@ -349,9 +349,9 @@ function updateStatsPanel(deals) {
     const avgSavingsPct = deals.reduce((acc, d) => acc + d.savings_pct, 0) / count;
     
     // Formatting animations or numeric rendering
-    statTotalDeals.innerText = count;
-    statAvgSavings.innerText = `${Math.round(avgSavingsPct)}%`;
-    statTotalSaved.innerText = `$${Math.round(totalSavings).toLocaleString()}`;
+    if (statTotalDeals) statTotalDeals.innerText = count;
+    if (statAvgSavings) statAvgSavings.innerText = `${Math.round(avgSavingsPct)}%`;
+    if (statTotalSaved) statTotalSaved.innerText = `$${Math.round(totalSavings).toLocaleString()}`;
 }
 
 /**
