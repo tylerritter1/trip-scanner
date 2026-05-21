@@ -476,25 +476,25 @@ body {
 .deals-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    gap: 2rem;
+    gap: 1.25rem;
 }
 
 .deal-card {
     background: var(--bg-card);
     backdrop-filter: blur(12px);
     border: 1px solid var(--border-glass);
-    border-radius: 24px;
-    padding: 1.5rem;
+    border-radius: 20px;
+    padding: 0.85rem 1rem;
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 0.65rem;
     transition: var(--transition-smooth);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .deal-card:hover {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
     background: var(--bg-card-hover);
     border-color: var(--border-glass-hover);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
@@ -504,13 +504,13 @@ body {
 .card-header-row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
 }
 
 .brand-badge {
-    padding: 0.35rem 0.85rem;
-    border-radius: 8px;
-    font-size: 0.75rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    font-size: 0.7rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -530,27 +530,27 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 54px;
-    height: 54px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     border: 2px solid transparent;
     font-family: var(--font-title);
     text-align: center;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 
 .score-super {
     border-color: var(--color-super);
     background: rgba(251, 191, 36, 0.05);
     color: var(--color-super);
-    box-shadow: 0 0 15px rgba(251, 191, 36, 0.15);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.15);
 }
 
 .score-great {
     border-color: var(--color-great);
     background: rgba(52, 211, 153, 0.05);
     color: var(--color-great);
-    box-shadow: 0 0 15px rgba(52, 211, 153, 0.15);
+    box-shadow: 0 0 10px rgba(52, 211, 153, 0.15);
 }
 
 .score-good {
@@ -566,14 +566,14 @@ body {
 }
 
 .score-val {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 800;
 }
 
 .score-grade {
-    font-size: 0.65rem;
+    font-size: 0.55rem;
     font-weight: 700;
-    margin-top: -3px;
+    margin-top: -2px;
     text-transform: uppercase;
 }
 
@@ -581,29 +581,29 @@ body {
 .resort-name {
     font-family: var(--font-title);
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     color: white;
-    line-height: 1.35;
-    margin-top: -0.25rem;
+    line-height: 1.25;
+    margin-top: -0.15rem;
 }
 
 .resort-location {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    margin-top: 0.25rem;
+    margin-top: 0.15rem;
 }
 
 .listing-meta-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
+    gap: 0.4rem;
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 12px;
-    padding: 0.75rem;
+    border-radius: 10px;
+    padding: 0.45rem 0.6rem;
 }
 
 .meta-item {
@@ -612,14 +612,14 @@ body {
 }
 
 .meta-label {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     color: var(--text-muted);
     font-weight: 600;
     text-transform: uppercase;
 }
 
 .meta-value {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--text-primary);
     font-weight: 500;
 }
@@ -630,7 +630,7 @@ body {
     justify-content: space-between;
     align-items: center;
     border-top: 1px dashed rgba(255, 255, 255, 0.1);
-    padding-top: 1rem;
+    padding-top: 0.5rem;
 }
 
 .price-box {
@@ -639,7 +639,7 @@ body {
 }
 
 .price-label {
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     color: var(--text-muted);
     font-weight: 600;
     text-transform: uppercase;
@@ -648,40 +648,40 @@ body {
 .price-value {
     font-family: var(--font-title);
     font-weight: 800;
-    font-size: 1.6rem;
+    font-size: 1.35rem;
     color: white;
 }
 
 .price-retail {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: var(--text-muted);
     text-decoration: line-through;
 }
 
 .price-per-br {
-    font-size: 0.85rem;
+    font-size: 0.78rem;
     color: #f59e0b; /* Amber Gold matching active price buttons */
     font-weight: 600;
-    margin-top: 0.2rem;
+    margin-top: 0.1rem;
 }
 
 .savings-tag {
     background: linear-gradient(135deg, #10b981 0%, #059669 100%);
     color: white;
-    padding: 0.4rem 0.8rem;
-    border-radius: 8px;
-    font-size: 0.85rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
     font-weight: 700;
     text-align: right;
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);
 }
 
 .savings-pct {
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 .savings-label {
-    font-size: 0.65rem;
+    font-size: 0.55rem;
     text-transform: uppercase;
     opacity: 0.9;
     display: block;
@@ -690,18 +690,19 @@ body {
 
 .super-deal-tag {
     background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-    box-shadow: 0 0 15px rgba(251, 191, 36, 0.25);
+    box-shadow: 0 0 10px rgba(251, 191, 36, 0.25);
 }
 
 /* Card Notes & Owner */
 .card-notes {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: var(--text-secondary);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    height: 2.7rem;
+    line-height: 1.3;
+    height: 2.1rem;
 }
 
 .owner-row {
@@ -709,8 +710,8 @@ body {
     justify-content: space-between;
     align-items: center;
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    padding-top: 0.75rem;
-    font-size: 0.8rem;
+    padding-top: 0.4rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
 }
 
@@ -724,9 +725,9 @@ body {
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid var(--border-glass);
     color: white;
-    padding: 0.8rem;
-    border-radius: 12px;
-    font-size: 0.9rem;
+    padding: 0.45rem;
+    border-radius: 10px;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
@@ -799,8 +800,8 @@ body {
 .skeleton-card {
     background: var(--bg-card);
     border: 1px solid var(--border-glass);
-    border-radius: 24px;
-    height: 380px;
+    border-radius: 20px;
+    height: 280px;
     position: relative;
     overflow: hidden;
 }
