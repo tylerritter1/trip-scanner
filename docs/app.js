@@ -183,8 +183,7 @@ async function fetchDeals() {
                         location: normalizedLoc,
                         state: getStateFromLocation(normalizedLoc)
                     };
-                })
-                .filter(deal => deal.state !== 'SC');
+                });
             console.log("Successfully fetched and normalized deals from deals.json");
         } else {
             throw new Error("Empty dataset in JSON");
@@ -199,8 +198,7 @@ async function fetchDeals() {
                     location: normalizedLoc,
                     state: getStateFromLocation(normalizedLoc)
                 };
-            })
-            .filter(deal => deal.state !== 'SC');
+            });
     }
     
     updateStatsPanel(dealsData);

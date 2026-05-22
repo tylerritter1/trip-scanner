@@ -45,6 +45,7 @@ os.makedirs(WEB_DIR, exist_ok=True)
 # tug_resort_id: numeric ID used in TUG Marketplace GET search URLs.
 #   URL format: https://tug2.com/timesharemarketplace/search?ResortId=NNNN&ForRent=True
 RESORT_RETAIL_BENCHMARKS = {
+    # --- Existing Configured Resorts ---
     "Marriott's Maui Ocean Club": {"retail_per_night": 750, "brand": "Marriott", "location": "Maui, Hawaii", "tug_resort_id": 13881},
     "Westin Kaanapali Ocean Resort Villas": {"retail_per_night": 850, "brand": "Westin", "location": "Maui, Hawaii", "tug_resort_id": 13901},
     "Disney's Aulani Resort & Spa": {"retail_per_night": 900, "brand": "Disney Vacation Club", "location": "Oahu, Hawaii", "tug_resort_id": 15365},
@@ -77,6 +78,54 @@ RESORT_RETAIL_BENCHMARKS = {
     "Marriott Kauai Lagoons Kalanipu'u": {"retail_per_night": 700, "brand": "Marriott", "location": "Kauai, HI", "tug_resort_id": 14918},
     "Marriott Lakeshore Reserve": {"retail_per_night": 500, "brand": "Marriott", "location": "Orlando, FL", "tug_resort_id": 14853},
     "Hilton Club La Pacifica Los Cabos": {"retail_per_night": 600, "brand": "Hilton", "location": "Los Cabos, Mexico", "tug_resort_id": 15338},
+
+    # --- Newly Added Hawaii & The Pacific Resorts ---
+    "Westin Princeville Ocean Resort Villas": {"retail_per_night": 750, "brand": "Westin", "location": "Kauai, Hawaii", "tug_resort_id": 14699},
+    "Grand Islander by Hilton Grand Vacations": {"retail_per_night": 500, "brand": "Hilton", "location": "Oahu, Hawaii", "tug_resort_id": 15177},
+    "Grand Waikikian by Hilton Grand Vacations": {"retail_per_night": 500, "brand": "Hilton", "location": "Oahu, Hawaii", "tug_resort_id": 14780},
+    "Lagoon Tower by Hilton Grand Vacations": {"retail_per_night": 450, "brand": "Hilton", "location": "Oahu, Hawaii", "tug_resort_id": 55},
+    "Marriott's Newport Coast Villas": {"retail_per_night": 450, "brand": "Marriott", "location": "Newport Coast, CA", "tug_resort_id": 14075},
+    "Grand Pacific Palisades Resort": {"retail_per_night": 350, "brand": "Independent", "location": "Carlsbad, CA", "tug_resort_id": 12647},
+    "Hyatt Vacation Club Welk Resort Villas": {"retail_per_night": 350, "brand": "Hyatt Vacation Club", "location": "Escondido, CA", "tug_resort_id": 10368},
+
+    # --- Newly Added Florida & The Southeast Resorts ---
+    "Disney's Beach Club Villas": {"retail_per_night": 650, "brand": "Disney Vacation Club", "location": "Orlando, FL", "tug_resort_id": 13520},
+    "Disney's Polynesian Villas & Bungalows": {"retail_per_night": 750, "brand": "Disney Vacation Club", "location": "Orlando, FL", "tug_resort_id": 15167},
+    "Disney's BoardWalk Villas": {"retail_per_night": 600, "brand": "Disney Vacation Club", "location": "Orlando, FL", "tug_resort_id": 13687},
+    "Club Wyndham Bonnet Creek Resort": {"retail_per_night": 350, "brand": "Wyndham", "location": "Orlando, FL", "tug_resort_id": 13112},
+    "Marriott's Cypress Harbour": {"retail_per_night": 350, "brand": "Marriott", "location": "Orlando, FL", "tug_resort_id": 14010},
+    "Hilton Grand Vacations Club at Tuscany Village": {"retail_per_night": 350, "brand": "Hilton", "location": "Orlando, FL", "tug_resort_id": 14568},
+    "Holiday Inn Club Vacations at Orange Lake Resort": {"retail_per_night": 250, "brand": "Holiday Inn", "location": "Kissimmee, FL", "tug_resort_id": 14714},
+    "Marriott's Crystal Shores": {"retail_per_night": 600, "brand": "Marriott", "location": "Marco Island, FL", "tug_resort_id": 14796},
+    "Marriott's Ocean Pointe": {"retail_per_night": 450, "brand": "Marriott", "location": "Palm Beach Shores, FL", "tug_resort_id": 13897},
+    "Marriott's Grande Ocean": {"retail_per_night": 450, "brand": "Marriott", "location": "Hilton Head Island, SC", "tug_resort_id": 14024},
+    "Marriott's Barony Beach Club": {"retail_per_night": 450, "brand": "Marriott", "location": "Hilton Head Island, SC", "tug_resort_id": 14006},
+    "Ocean Oak Resort by Hilton Grand Vacations": {"retail_per_night": 400, "brand": "Hilton", "location": "Hilton Head Island, SC", "tug_resort_id": 15187},
+    "Marriott's OceanWatch Villas at Grande Dunes": {"retail_per_night": 450, "brand": "Marriott", "location": "Myrtle Beach, SC", "tug_resort_id": 13896},
+    "Club Wyndham Ocean Boulevard": {"retail_per_night": 300, "brand": "Wyndham", "location": "Myrtle Beach, SC", "tug_resort_id": 14981},
+
+    # --- Newly Added Mountain, Ski & West Destinations ---
+    "Marriott's Grand Residence Club Lake Tahoe": {"retail_per_night": 450, "brand": "Marriott", "location": "Lake Tahoe, CA", "tug_resort_id": 14021},
+    "Grand Lodge on Peak 7": {"retail_per_night": 500, "brand": "Independent", "location": "Breckenridge, CO", "tug_resort_id": 14801},
+    "Grand Colorado on Peak 8": {"retail_per_night": 600, "brand": "Independent", "location": "Breckenridge, CO", "tug_resort_id": 15183},
+    "Hyatt Main Street Station": {"retail_per_night": 550, "brand": "Hyatt Vacation Club", "location": "Breckenridge, CO", "tug_resort_id": 13819},
+    "Valdoro Mountain Lodge by Hilton Grand Vacations": {"retail_per_night": 450, "brand": "Hilton", "location": "Breckenridge, CO", "tug_resort_id": 13123},
+    "Marriott's MountainSide at Park City": {"retail_per_night": 500, "brand": "Marriott", "location": "Park City, UT", "tug_resort_id": 14036},
+    "Westgate Park City Resort & Spa": {"retail_per_night": 450, "brand": "Westgate", "location": "Park City, UT", "tug_resort_id": 14458},
+    "Marriott's Canyon Villas at Desert Ridge": {"retail_per_night": 350, "brand": "Marriott", "location": "Phoenix, AZ", "tug_resort_id": 14012},
+    "Marriott's Desert Springs Villas I & II": {"retail_per_night": 350, "brand": "Marriott", "location": "Palm Desert, CA", "tug_resort_id": 14995},
+    "Westin Desert Willow Villas": {"retail_per_night": 400, "brand": "Westin", "location": "Palm Desert, CA", "tug_resort_id": 14873},
+    "Elara by Hilton Grand Vacations": {"retail_per_night": 350, "brand": "Hilton", "location": "Las Vegas, NV", "tug_resort_id": 14790},
+
+    # --- Newly Added Caribbean & Mexico Resorts ---
+    "Marriott's Aruba Surf Club": {"retail_per_night": 600, "brand": "Marriott", "location": "Palm Beach, Aruba", "tug_resort_id": 14056},
+    "Marriott's Aruba Ocean Club": {"retail_per_night": 550, "brand": "Marriott", "location": "Palm Beach, Aruba", "tug_resort_id": 13995},
+    "Westin St. John Resort Villas": {"retail_per_night": 800, "brand": "Westin", "location": "St. John, USVI", "tug_resort_id": 10527},
+    "Marriott's Frenchman's Cove": {"retail_per_night": 750, "brand": "Marriott", "location": "St. Thomas, USVI", "tug_resort_id": 14019},
+    "The Royal Sands": {"retail_per_night": 400, "brand": "Independent", "location": "Cancun, Mexico", "tug_resort_id": 14248},
+    "Westin Lagunamar Ocean Resort": {"retail_per_night": 500, "brand": "Westin", "location": "Cancun, Mexico", "tug_resort_id": 14755},
+    "Hacienda del Mar Resort": {"retail_per_night": 400, "brand": "Sheraton", "location": "Cabo San Lucas, Mexico", "tug_resort_id": 11841},
+    "Pueblo Bonito Sunset Beach Resort": {"retail_per_night": 350, "brand": "Independent", "location": "Cabo San Lucas, Mexico", "tug_resort_id": 12778},
 }
 
 DEFAULT_RETAIL_BENCHMARK = 350
