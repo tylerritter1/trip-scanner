@@ -36,6 +36,7 @@ socket.setdefaulttimeout(30)
 # Target Directory for web data
 WEB_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "docs")
 DEALS_JSON_PATH = os.path.join(WEB_DIR, "deals.json")
+DEALS_JS_PATH = os.path.join(WEB_DIR, "deals.js")
 
 # Ensure docs directory exists
 os.makedirs(WEB_DIR, exist_ok=True)
@@ -519,13 +520,17 @@ def main():
     # Sort by deal score descending
     all_deals.sort(key=lambda x: x["score"], reverse=True)
 
-    # Export to deals.json in the web folder
+    # Export to deals.json and deals.js in the web folder
     try:
         with open(DEALS_JSON_PATH, "w") as f:
             json.dump(all_deals, f, indent=2)
         print(f"✅ Exported {len(all_deals)} deals to {DEALS_JSON_PATH}")
+
+        with open(DEALS_JS_PATH, "w") as f:
+            f.write(f"window.DEALS_DATA = {json.dumps(all_deals, indent=2)};\n")
+        print(f"✅ Exported {len(all_deals)} deals to {DEALS_JS_PATH} (CORS-free loader)")
     except Exception as e:
-        print(f"❌ Failed to export JSON: {e}")
+        print(f"❌ Failed to export data files: {e}")
 
 
 if __name__ == "__main__":

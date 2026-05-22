@@ -168,11 +168,20 @@ async function fetchDeals() {
         // Shimmer loaders simulation time
         await new Promise(resolve => setTimeout(resolve, 800));
         
-        const response = await fetch(`deals.json?t=${Date.now()}`);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        let data = null;
+        
+        // Try local global variable from deals.js first (helps bypass CORS in file:// protocol)
+        if (window.DEALS_DATA && window.DEALS_DATA.length > 0) {
+            data = window.DEALS_DATA;
+            console.log("Successfully loaded deals from window.DEALS_DATA (CORS-free)");
+        } else {
+            const response = await fetch(`deals.json?t=${Date.now()}`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            data = await response.json();
+            console.log("Successfully fetched deals from deals.json");
         }
-        const data = await response.json();
         
         if (data && data.length > 0) {
             dealsData = data
@@ -184,12 +193,11 @@ async function fetchDeals() {
                         state: getStateFromLocation(normalizedLoc)
                     };
                 });
-            console.log("Successfully fetched and normalized deals from deals.json");
         } else {
-            throw new Error("Empty dataset in JSON");
+            throw new Error("Empty dataset in JSON/JS");
         }
     } catch (error) {
-        console.warn("Could not load deals.json. Loading high-fidelity fallback dataset instead.", error);
+        console.warn("Could not load deals.json or deals.js. Loading high-fidelity fallback dataset instead.", error);
         dealsData = FALLBACK_DEALS
             .map(deal => {
                 const normalizedLoc = normalizeLocation(deal.location);
