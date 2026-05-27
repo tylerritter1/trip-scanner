@@ -409,6 +409,18 @@ body {
     box-shadow: 0 2px 8px rgba(245, 158, 11, 0.2) !important;
 }
 
+/* date buttons use a vivid emerald accent */
+.date-btn.active {
+    background: linear-gradient(135deg, #10b981 0%, rgba(16, 185, 129, 0.8) 100%) !important;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2) !important;
+}
+
+.date-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
 .sort-wrapper {
     display: flex;
     align-items: center;
@@ -929,7 +941,8 @@ body {
     
     .brand-filter-group,
     .state-filter-group,
-    .bedroom-filter-group {
+    .bedroom-filter-group,
+    .date-filter-group {
         justify-content: center;
     }
     

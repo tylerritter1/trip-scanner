@@ -129,6 +129,7 @@ let activeBrandFilter = 'all';
 let activeLocationFilter = 'all';
 let activeBedroomsFilter = 'all';
 let activePriceFilter = 'all';
+let activeDateFilter = 'all';
 let activeDurationFilter = 1; // 1 represents 'Any'
 let searchQuery = '';
 let currentSort = 'score';
@@ -140,6 +141,7 @@ const brandFiltersContainer = document.getElementById('brand-filters');
 const stateFiltersContainer = document.getElementById('state-filters');
 const bedroomFiltersContainer = document.getElementById('bedroom-filters');
 const priceFiltersContainer = document.getElementById('price-filters');
+const dateFiltersContainer = document.getElementById('date-filters');
 const durationSlider = document.getElementById('duration-slider');
 const durationVal = document.getElementById('duration-val');
 const sortSelect = document.getElementById('sort-select');
@@ -427,6 +429,16 @@ function setupEventListeners() {
         }
     });
 
+    // Date Quick-Filter Buttons Listener
+    dateFiltersContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('date-btn')) {
+            document.querySelectorAll('#date-filters .date-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            activeDateFilter = e.target.getAttribute('data-date');
+            applyFiltersAndSorting();
+        }
+    });
+
     // Stay Duration Slider Listener
     durationSlider.addEventListener('input', (e) => {
         const val = parseInt(e.target.value);
@@ -473,6 +485,11 @@ function resetAllFilters() {
     const allPriceBtn = document.querySelector('#price-filters .price-btn[data-price="all"]');
     if (allPriceBtn) allPriceBtn.classList.add('active');
     activePriceFilter = 'all';
+
+    document.querySelectorAll('#date-filters .date-btn').forEach(btn => btn.classList.remove('active'));
+    const allDateBtn = document.querySelector('#date-filters .date-btn[data-date="all"]');
+    if (allDateBtn) allDateBtn.classList.add('active');
+    activeDateFilter = 'all';
 
     // Reset duration slider
     durationSlider.value = 1;
@@ -557,6 +574,20 @@ function applyFiltersAndSorting() {
                 return pricePerBr > 300;
             }
             return true;
+        });
+    }
+
+    // 7. Date Quick Filter (Next 30 Days)
+    if (activeDateFilter === 'next30') {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const cutoff = new Date(today);
+        cutoff.setDate(cutoff.getDate() + 30);
+        filtered = filtered.filter(d => {
+            if (!d.check_in) return false;
+            const parts = d.check_in.split('-');
+            const checkIn = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+            return checkIn >= today && checkIn <= cutoff;
         });
     }
 
