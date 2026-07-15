@@ -36,5 +36,5 @@ jobs:
         run: |
           git config --global user.name "tylerritter1"
           git config --global user.email "tyler.ritter@instacart.com"
-          git add docs/deals.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync: update scanned deals [$(date -u '+%Y-%m-%d')]" && git pull --rebase && git push)
+          git add docs/deals.json docs/deals.js
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-sync: update scanned deals [$(date -u '+%Y-%m-%d')]" && git pull --rebase --autostash && git push)
