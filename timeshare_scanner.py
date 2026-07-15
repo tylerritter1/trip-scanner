@@ -176,6 +176,16 @@ RESORT_RETAIL_BENCHMARKS = {
     "Hyatt Vacation Club Piñon Pointe": {"retail_per_night": 650, "brand": "Hyatt Vacation Club", "location": "Sedona, AZ", "tug_resort_id": 13855},
     "Hyatt Wild Oak Ranch": {"retail_per_night": 400, "brand": "Hyatt Vacation Club", "location": "San Antonio, TX", "tug_resort_id": 13857},
     "Hyatt Vacation Club at Coconut Cove": {"retail_per_night": 500, "brand": "Hyatt Vacation Club", "location": "Bonita Springs, FL", "tug_resort_id": 13796},
+    "Hyatt Beach House Resort": {"retail_per_night": 600, "brand": "Hyatt Vacation Club", "location": "Key West, FL", "tug_resort_id": 13852},
+    "Hyatt Hacienda del Mar": {"retail_per_night": 500, "brand": "Hyatt Vacation Club", "location": "Dorado, PR", "tug_resort_id": 13856},
+    "Hyatt Residence Club Lake Tahoe High Sierra Lodge": {"retail_per_night": 600, "brand": "Hyatt Vacation Club", "location": "Incline Village, NV", "tug_resort_id": 13835},
+    "Hyatt Vacation Club Desert Oasis": {"retail_per_night": 350, "brand": "Hyatt Vacation Club", "location": "Cathedral City, CA", "tug_resort_id": 11179},
+    "Hyatt Vacation Club Mountain Lodge": {"retail_per_night": 500, "brand": "Hyatt Vacation Club", "location": "Beaver Creek, CO", "tug_resort_id": 13792},
+    "Hyatt Vacation Club Welk Mountain Villas": {"retail_per_night": 350, "brand": "Hyatt Vacation Club", "location": "Escondido, CA", "tug_resort_id": 14902},
+    "Hyatt Vacation Club Welk Villas on the Greens": {"retail_per_night": 350, "brand": "Hyatt Vacation Club", "location": "Escondido, CA", "tug_resort_id": 12757},
+    "Hyatt Zilara Cancun": {"retail_per_night": 600, "brand": "Hyatt Vacation Club", "location": "Cancun, Mexico", "tug_resort_id": 14953},
+    "Hyatt Ziva Cancun": {"retail_per_night": 600, "brand": "Hyatt Vacation Club", "location": "Cancun, Mexico", "tug_resort_id": 15412},
+    "Hyatt Ziva Cap Cana": {"retail_per_night": 600, "brand": "Hyatt Vacation Club", "location": "Punta Cana, Dominican Republic", "tug_resort_id": 15429},
     # Westin
     "Westin Mission Hills Resort Villas": {"retail_per_night": 450, "brand": "Westin", "location": "Rancho Mirage, CA", "tug_resort_id": 14472},
     # Wyndham
