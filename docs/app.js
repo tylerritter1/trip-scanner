@@ -130,6 +130,8 @@ let activeLocationFilter = 'all';
 let activeBedroomsFilter = 'all';
 let activePriceFilter = 'all';
 let activeDateFilter = 'all';
+let activeStartDateFilter = '';
+let activePlatformFilter = 'all';
 let activeDurationFilter = 1; // 1 represents 'Any'
 let searchQuery = '';
 let currentSort = 'score';
@@ -142,12 +144,14 @@ const stateFiltersContainer = document.getElementById('state-filters');
 const bedroomFiltersContainer = document.getElementById('bedroom-filters');
 const priceFiltersContainer = document.getElementById('price-filters');
 const dateFiltersContainer = document.getElementById('date-filters');
+const startDateInput = document.getElementById('start-date-input');
 const durationSlider = document.getElementById('duration-slider');
 const durationVal = document.getElementById('duration-val');
 const sortSelect = document.getElementById('sort-select');
 const resultsCount = document.getElementById('results-count');
 const emptyState = document.getElementById('empty-state');
 const resetFiltersBtn = document.getElementById('reset-filters-btn');
+const platformFiltersContainer = document.getElementById('platform-filters');
 
 // Stats Counters
 const statTotalDeals = document.getElementById('stat-total-deals');
@@ -431,13 +435,37 @@ function setupEventListeners() {
 
     // Date Quick-Filter Buttons Listener
     dateFiltersContainer.addEventListener('click', (e) => {
-        if (e.target.classList.contains('date-btn')) {
-            document.querySelectorAll('#date-filters .date-btn').forEach(btn => btn.classList.remove('active'));
+        if (e.target.classList.contains('date-btn') && e.target.tagName !== 'INPUT') {
+            document.querySelectorAll('#date-filters .date-btn').forEach(btn => {
+                if (btn.tagName !== 'INPUT') btn.classList.remove('active');
+            });
             e.target.classList.add('active');
             activeDateFilter = e.target.getAttribute('data-date');
+            
+            if (startDateInput) {
+                startDateInput.value = '';
+                activeStartDateFilter = '';
+            }
             applyFiltersAndSorting();
         }
     });
+
+    if (startDateInput) {
+        startDateInput.addEventListener('change', (e) => {
+            activeStartDateFilter = e.target.value;
+            if (activeStartDateFilter) {
+                document.querySelectorAll('#date-filters .date-btn').forEach(btn => {
+                    if (btn.tagName !== 'INPUT') btn.classList.remove('active');
+                });
+                activeDateFilter = 'custom';
+            } else {
+                const allDateBtn = document.querySelector('#date-filters .date-btn[data-date="all"]');
+                if (allDateBtn) allDateBtn.classList.add('active');
+                activeDateFilter = 'all';
+            }
+            applyFiltersAndSorting();
+        });
+    }
 
     // Stay Duration Slider Listener
     durationSlider.addEventListener('input', (e) => {
@@ -458,6 +486,16 @@ function setupEventListeners() {
 
     // Reset button inside empty state
     resetFiltersBtn.addEventListener('click', resetAllFilters);
+
+    // Platform/Source Buttons Listener
+    platformFiltersContainer.addEventListener('click', (e) => {
+        if (e.target.classList.contains('platform-btn')) {
+            document.querySelectorAll('#platform-filters .platform-btn').forEach(btn => btn.classList.remove('active'));
+            e.target.classList.add('active');
+            activePlatformFilter = e.target.getAttribute('data-platform');
+            applyFiltersAndSorting();
+        }
+    });
 }
 
 /**
@@ -486,10 +524,22 @@ function resetAllFilters() {
     if (allPriceBtn) allPriceBtn.classList.add('active');
     activePriceFilter = 'all';
 
-    document.querySelectorAll('#date-filters .date-btn').forEach(btn => btn.classList.remove('active'));
+    document.querySelectorAll('#date-filters .date-btn').forEach(btn => {
+        if (btn.tagName !== 'INPUT') btn.classList.remove('active');
+    });
     const allDateBtn = document.querySelector('#date-filters .date-btn[data-date="all"]');
     if (allDateBtn) allDateBtn.classList.add('active');
     activeDateFilter = 'all';
+    
+    if (startDateInput) {
+        startDateInput.value = '';
+        activeStartDateFilter = '';
+    }
+
+    document.querySelectorAll('#platform-filters .platform-btn').forEach(btn => btn.classList.remove('active'));
+    const allPlatBtn = document.querySelector('#platform-filters .platform-btn[data-platform="all"]');
+    if (allPlatBtn) allPlatBtn.classList.add('active');
+    activePlatformFilter = 'all';
 
     // Reset duration slider
     durationSlider.value = 1;
@@ -514,8 +564,14 @@ function applyFiltersAndSorting() {
             d.resort.toLowerCase().includes(searchQuery) ||
             d.location.toLowerCase().includes(searchQuery) ||
             d.brand.toLowerCase().includes(searchQuery) ||
-            (d.unit_type && d.unit_type.toLowerCase().includes(searchQuery))
+            (d.unit_type && d.unit_type.toLowerCase().includes(searchQuery)) ||
+            (d.platform && d.platform.toLowerCase().includes(searchQuery))
         );
+    }
+
+    // 1.5 Platform/Source Filter
+    if (activePlatformFilter !== 'all') {
+        filtered = filtered.filter(d => d.platform === activePlatformFilter);
     }
 
     // 2. Brand Category Filter
@@ -577,7 +633,7 @@ function applyFiltersAndSorting() {
         });
     }
 
-    // 7. Date Quick Filter (Next 30 Days)
+    // 7. Date Quick Filter (Next 30 Days or Custom Date)
     if (activeDateFilter === 'next30') {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -588,6 +644,17 @@ function applyFiltersAndSorting() {
             const parts = d.check_in.split('-');
             const checkIn = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
             return checkIn >= today && checkIn <= cutoff;
+        });
+    } else if (activeStartDateFilter) {
+        const parts = activeStartDateFilter.split('-');
+        const customStart = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+        customStart.setHours(0, 0, 0, 0);
+        
+        filtered = filtered.filter(d => {
+            if (!d.check_in) return false;
+            const dParts = d.check_in.split('-');
+            const checkIn = new Date(parseInt(dParts[0], 10), parseInt(dParts[1], 10) - 1, parseInt(dParts[2], 10));
+            return checkIn >= customStart;
         });
     }
 
@@ -662,7 +729,10 @@ function renderDeals(deals) {
             <div class="deal-card animate-fadeIn">
                 <!-- Top Row -->
                 <div class="card-header-row">
-                    <span class="brand-badge ${brandClass}">${deal.brand}</span>
+                    <div style="display: flex; align-items: center; gap: 0.4rem;">
+                        <span class="brand-badge ${brandClass}">${deal.brand}</span>
+                        <span class="platform-badge platform-${(deal.platform || 'other').toLowerCase().replace(/[^a-z0-9]/g, '')}">${deal.platform || 'Unknown'}</span>
+                    </div>
                     <div class="score-badge score-${deal.class}">
                         <span class="score-val">${deal.score}</span>
                         <span class="score-grade">${deal.grade}</span>

@@ -65,6 +65,15 @@
                 </div>
 
                 <div class="filter-group-wrap">
+                    <span class="filter-group-label"><i class="fa-solid fa-globe"></i> Source</span>
+                    <div class="platform-filter-group" id="platform-filters">
+                        <button class="filter-btn platform-btn active" data-platform="all">All Sources</button>
+                        <button class="filter-btn platform-btn" data-platform="TUG2"><i class="fa-solid fa-users"></i> TUG2</button>
+                        <button class="filter-btn platform-btn" data-platform="RedWeek"><i class="fa-solid fa-calendar-week"></i> RedWeek</button>
+                    </div>
+                </div>
+
+                <div class="filter-group-wrap">
                     <span class="filter-group-label"><i class="fa-solid fa-map-location-dot"></i> Location</span>
                     <div class="state-filter-group" id="state-filters">
                         <!-- Dynamically populated by app.js -->
@@ -96,6 +105,7 @@
                     <div class="date-filter-group" id="date-filters">
                         <button class="filter-btn date-btn active" data-date="all">All Dates</button>
                         <button class="filter-btn date-btn" data-date="next30">Next 30 Days</button>
+                        <input type="date" id="start-date-input" class="filter-btn" style="padding: 0.4rem 0.8rem; background: var(--bg-card); color: var(--text-primary); border: 1px solid var(--border-glass); cursor: pointer;" title="Earliest Check-in Date">
                     </div>
                 </div>
 
