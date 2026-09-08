@@ -654,7 +654,7 @@ function applyFiltersAndSorting() {
             if (!d.check_in) return false;
             const dParts = d.check_in.split('-');
             const checkIn = new Date(parseInt(dParts[0], 10), parseInt(dParts[1], 10) - 1, parseInt(dParts[2], 10));
-            return checkIn >= customStart;
+            return checkIn.getTime() === customStart.getTime();
         });
     }
 
